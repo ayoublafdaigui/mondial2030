@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.mondial2030.controller.AnalyticsDashboardController"
+      spacing="20" alignment="TOP_CENTER"
+      prefWidth="900" prefHeight="700"
+      styleClass="analytics-dashboard">
+    
+    <padding>
+        <Insets top="20" right="30" bottom="20" left="30"/>
+    </padding>
+    
+    <Label text="📊 Real-Time Analytics Dashboard" styleClass="dashboard-title"/>
+    
+    <!-- Summary Cards -->
+    <HBox spacing="20" alignment="CENTER" styleClass="summary-cards">
+        <VBox styleClass="summary-card" alignment="CENTER" spacing="5">
+            <Label text="Total Revenue" styleClass="card-label"/>
+            <Label fx:id="totalRevenueLabel" text="$0.00" styleClass="card-value"/>
+        </VBox>
+        <VBox styleClass="summary-card" alignment="CENTER" spacing="5">
+            <Label text="Tickets Sold" styleClass="card-label"/>
+            <Label fx:id="totalTicketsSoldLabel" text="0" styleClass="card-value"/>
+        </VBox>
+        <VBox styleClass="summary-card" alignment="CENTER" spacing="5">
+            <Label text="Available Seats" styleClass="card-label"/>
+            <Label fx:id="availableSeatsLabel" text="0" styleClass="card-value"/>
+        </VBox>
+        <VBox styleClass="summary-card" alignment="CENTER" spacing="5">
+            <Label text="Total Matches" styleClass="card-label"/>
+            <Label fx:id="totalMatchesLabel" text="0" styleClass="card-value"/>
+        </VBox>
+    </HBox>
+    
+    <!-- Charts Section -->
+    <HBox spacing="20" alignment="CENTER" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+        
+        <!-- Pie Chart: Tickets Sold vs Remaining -->
+        <VBox alignment="CENTER" spacing="10" HBox.hgrow="ALWAYS">
+            <Label text="Tickets Distribution" styleClass="chart-title"/>
+            <PieChart fx:id="ticketsPieChart" 
+                      prefWidth="350" prefHeight="300"
+                      title="Sold vs Available"
+                      legendSide="BOTTOM"
+                      labelsVisible="true"/>
+        </VBox>
+        
+        <!-- Line Chart: Revenue per Match -->
+        <VBox alignment="CENTER" spacing="10" HBox.hgrow="ALWAYS">
+            <Label text="Revenue per Match" styleClass="chart-title"/>
+            <LineChart fx:id="revenueLineChart" prefWidth="450" prefHeight="300">
+                <xAxis>
+                    <CategoryAxis fx:id="xAxis" label="Match"/>
+                </xAxis>
+                <yAxis>
+                    <NumberAxis fx:id="yAxis" label="Revenue ($)"/>
+                </yAxis>
+            </LineChart>
+        </VBox>
+    </HBox>
+    
+    <!-- Bar Chart: Tickets per Stadium -->
+    <VBox alignment="CENTER" spacing="10" VBox.vgrow="ALWAYS">
+        <Label text="Tickets Sold by Stadium" styleClass="chart-title"/>
+        <BarChart fx:id="stadiumBarChart" prefHeight="250">
+            <xAxis>
+                <CategoryAxis fx:id="stadiumXAxis" label="Stadium"/>
+            </xAxis>
+            <yAxis>
+                <NumberAxis fx:id="stadiumYAxis" label="Tickets Sold"/>
+            </yAxis>
+        </BarChart>
+    </VBox>
+    
+    <!-- Controls -->
+    <HBox spacing="15" alignment="CENTER">
+        <Button text="🔄 Refresh Data" onAction="#handleRefresh" styleClass="refresh-button"/>
+        <Button text="📥 Export Report" onAction="#handleExport" styleClass="export-button"/>
+        <ComboBox fx:id="timeRangeComboBox" promptText="Time Range"/>
+    </HBox>
+    
+    <Label fx:id="lastUpdatedLabel" text="Last updated: --" styleClass="timestamp-label"/>
+</VBox>

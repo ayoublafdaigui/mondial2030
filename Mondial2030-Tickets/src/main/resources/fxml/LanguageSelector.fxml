@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.mondial2030.controller.LanguageSelectorController"
+      spacing="10" alignment="CENTER"
+      prefWidth="300" prefHeight="200">
+    
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+    
+    <Label text="%nav.settings" styleClass="section-title"/>
+    
+    <HBox spacing="10" alignment="CENTER">
+        <Label text="Language:"/>
+        <ComboBox fx:id="languageComboBox" prefWidth="150"/>
+    </HBox>
+    
+    <!-- Sample labels that will be translated -->
+    <VBox spacing="5" alignment="CENTER" styleClass="preview-box">
+        <Label text="%welcome" fx:id="welcomeLabel" styleClass="preview-label"/>
+        <Label text="%buy_ticket" fx:id="buyTicketLabel" styleClass="preview-label"/>
+        <Label text="%stadium" fx:id="stadiumLabel" styleClass="preview-label"/>
+    </VBox>
+    
+    <Button text="Apply" onAction="#handleApply" styleClass="primary-button"/>
+</VBox>

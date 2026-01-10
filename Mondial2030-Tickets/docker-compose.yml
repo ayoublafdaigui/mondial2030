@@ -1,0 +1,171 @@
+# ===================================================================
+# Mondial 2030 - Ticket Management System
+# Docker Compose Configuration
+# ===================================================================
+# 
+# This configuration orchestrates two services:
+# - db: PostgreSQL database
+# - app: JavaFX application
+#
+# USAGE:
+#   docker-compose up -d db        # Start database only
+#   docker-compose up              # Start all services
+#   docker-compose logs -f         # View logs
+#   docker-compose down            # Stop all services
+#
+# FOR X11 GUI SUPPORT (see notes at bottom)
+# ===================================================================
+
+version: '3.8'
+
+services:
+  # ===================================================================
+  # PostgreSQL Database Service
+  # ===================================================================
+  db:
+    image: postgres:16-alpine
+    container_name: mondial2030-db
+    restart: unless-stopped
+    
+    environment:
+      POSTGRES_DB: mondial2030
+      POSTGRES_USER: mondial_user
+      POSTGRES_PASSWORD: mondial_pass
+      PGDATA: /var/lib/postgresql/data/pgdata
+    
+    volumes:
+      # Persist database data
+      - mondial2030-data:/var/lib/postgresql/data
+      # Optional: init scripts
+      - ./docker/init-db:/docker-entrypoint-initdb.d:ro
+    
+    ports:
+      - "5432:5432"
+    
+    networks:
+      - mondial2030-network
+    
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mondial_user -d mondial2030"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  # ===================================================================
+  # JavaFX Application Service
+  # ===================================================================
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mondial2030-app
+    restart: unless-stopped
+    
+    depends_on:
+      db:
+        condition: service_healthy
+    
+    environment:
+      # Database connection (matches hibernate.cfg.xml)
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: mondial2030
+      DB_USER: mondial_user
+      DB_PASSWORD: mondial_pass
+      
+      # Display settings for X11 forwarding
+      # Linux: use $DISPLAY
+      # Windows/macOS: use host.docker.internal:0
+      DISPLAY: ${DISPLAY:-host.docker.internal:0}
+      
+      # Java options
+      JAVA_OPTS: "-Xmx512m -Djava.awt.headless=false"
+    
+    volumes:
+      # X11 socket for Linux GUI forwarding
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      # Alternative: share Xauthority
+      - ${XAUTHORITY:-~/.Xauthority}:/home/mondial/.Xauthority:ro
+    
+    networks:
+      - mondial2030-network
+    
+    # For Linux X11 forwarding
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  # ===================================================================
+  # pgAdmin Service (Optional - Database Management UI)
+  # ===================================================================
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: mondial2030-pgadmin
+    restart: unless-stopped
+    profiles:
+      - admin  # Only starts with: docker-compose --profile admin up
+    
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@mondial2030.com
+      PGADMIN_DEFAULT_PASSWORD: admin123
+      PGADMIN_LISTEN_PORT: 80
+    
+    ports:
+      - "5050:80"
+    
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    
+    networks:
+      - mondial2030-network
+    
+    depends_on:
+      - db
+
+# ===================================================================
+# Networks
+# ===================================================================
+networks:
+  mondial2030-network:
+    driver: bridge
+    name: mondial2030-network
+
+# ===================================================================
+# Volumes
+# ===================================================================
+volumes:
+  mondial2030-data:
+    name: mondial2030-data
+  pgadmin-data:
+    name: mondial2030-pgadmin-data
+
+# ===================================================================
+# X11 FORWARDING SETUP INSTRUCTIONS
+# ===================================================================
+#
+# LINUX:
+#   1. Allow X11 connections from Docker:
+#      $ xhost +local:docker
+#   
+#   2. Run with:
+#      $ DISPLAY=$DISPLAY docker-compose up
+#
+# WINDOWS (VcXsrv):
+#   1. Install VcXsrv: https://sourceforge.net/projects/vcxsrv/
+#   2. Run XLaunch:
+#      - Multiple windows
+#      - Start no client
+#      - Check "Disable access control"
+#   3. Run:
+#      $ docker-compose up
+#
+# MACOS (XQuartz):
+#   1. Install XQuartz: https://www.xquartz.org/
+#   2. In XQuartz Preferences > Security:
+#      - Check "Allow connections from network clients"
+#   3. Restart XQuartz
+#   4. Run:
+#      $ xhost +localhost
+#      $ docker-compose up
+#
+# ===================================================================

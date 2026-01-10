@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.mondial2030.controller.HomeController"
+            styleClass="home-container">
+    
+    <!-- TOP: Navigation Bar -->
+    <top>
+        <HBox styleClass="navbar" alignment="CENTER_LEFT" spacing="20">
+            <padding>
+                <Insets top="15" right="30" bottom="15" left="30"/>
+            </padding>
+            
+            <!-- Logo & Title -->
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <Label text="🏟️" style="-fx-font-size: 28px;"/>
+                <VBox>
+                    <Label text="Mondial 2030" styleClass="navbar-title"/>
+                    <Label text="Morocco • Spain • Portugal" styleClass="navbar-subtitle"/>
+                </VBox>
+            </HBox>
+            
+            <Region HBox.hgrow="ALWAYS"/>
+            
+            <!-- Navigation Links -->
+            <HBox spacing="15" alignment="CENTER">
+                <Button text="🏠 Accueil" onAction="#handleHome" styleClass="nav-link-active"/>
+                <Button text="📅 Matchs" onAction="#handleMatches" styleClass="nav-link"/>
+                <Button text="🎫 Billets" onAction="#handleTickets" styleClass="nav-link"/>
+                <Button text="🏟️ Stades" onAction="#handleStadiums" styleClass="nav-link"/>
+            </HBox>
+            
+            <Region HBox.hgrow="ALWAYS"/>
+            
+            <!-- Auth Buttons - Dynamic based on login state -->
+            <HBox fx:id="authButtonsContainer" spacing="10" alignment="CENTER">
+                <!-- Will be populated dynamically -->
+            </HBox>
+        </HBox>
+    </top>
+    
+    <!-- CENTER: Main Content -->
+    <center>
+        <ScrollPane fitToWidth="true" styleClass="content-scroll">
+            <VBox spacing="30">
+                <padding>
+                    <Insets top="30" right="50" bottom="30" left="50"/>
+                </padding>
+                
+                <!-- Hero Section -->
+                <VBox styleClass="hero-section" alignment="CENTER" spacing="15">
+                    <Label text="🏆 FIFA World Cup 2030" styleClass="hero-title"/>
+                    <Label text="Bienvenue au plus grand événement sportif du monde" styleClass="hero-subtitle"/>
+                    <Label text="Réservez vos billets pour la Coupe du Monde 2030" styleClass="hero-description"/>
+                    
+                    <HBox spacing="15" alignment="CENTER">
+                        <Button fx:id="buyTicketsHeroBtn" text="🎫 Acheter des Billets" 
+                                onAction="#handleBuyTickets" styleClass="hero-button-primary"/>
+                        <Button text="📍 Voir les Stades" onAction="#handleStadiums" styleClass="hero-button-secondary"/>
+                    </HBox>
+                </VBox>
+                
+                <!-- Stats Section -->
+                <HBox spacing="20" alignment="CENTER" styleClass="stats-section">
+                    <VBox styleClass="stat-card" alignment="CENTER">
+                        <Label fx:id="totalMatchesLabel" text="48" styleClass="stat-number"/>
+                        <Label text="Matchs" styleClass="stat-label"/>
+                    </VBox>
+                    <VBox styleClass="stat-card" alignment="CENTER">
+                        <Label fx:id="totalStadiumsLabel" text="15" styleClass="stat-number"/>
+                        <Label text="Stades" styleClass="stat-label"/>
+                    </VBox>
+                    <VBox styleClass="stat-card" alignment="CENTER">
+                        <Label fx:id="totalTeamsLabel" text="48" styleClass="stat-number"/>
+                        <Label text="Équipes" styleClass="stat-label"/>
+                    </VBox>
+                    <VBox styleClass="stat-card" alignment="CENTER">
+                        <Label fx:id="availableTicketsLabel" text="0" styleClass="stat-number"/>
+                        <Label text="Billets Disponibles" styleClass="stat-label"/>
+                    </VBox>
+                </HBox>
+                
+                <!-- Upcoming Matches Section -->
+                <VBox styleClass="section-container" spacing="15">
+                    <HBox alignment="CENTER_LEFT" spacing="10">
+                        <Label text="📅 Prochains Matchs" styleClass="section-title"/>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <Button text="Voir tous les matchs →" onAction="#handleMatches" styleClass="link-button"/>
+                    </HBox>
+                    
+                    <FlowPane fx:id="matchesContainer" hgap="20" vgap="20" alignment="CENTER">
+                        <!-- Match cards will be populated dynamically -->
+                    </FlowPane>
+                </VBox>
+                
+                <!-- Featured Stadiums Section -->
+                <VBox styleClass="section-container" spacing="15">
+                    <HBox alignment="CENTER_LEFT" spacing="10">
+                        <Label text="🏟️ Stades Vedettes" styleClass="section-title"/>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <Button text="Explorer les stades →" onAction="#handleStadiums" styleClass="link-button"/>
+                    </HBox>
+                    
+                    <FlowPane fx:id="stadiumsContainer" hgap="20" vgap="20" alignment="CENTER">
+                        <!-- Stadium cards will be populated dynamically from database -->
+                    </FlowPane>
+                </VBox>
+                
+            </VBox>
+        </ScrollPane>
+    </center>
+    
+    <!-- BOTTOM: Footer -->
+    <bottom>
+        <HBox styleClass="footer" alignment="CENTER" spacing="30">
+            <padding>
+                <Insets top="20" right="30" bottom="20" left="30"/>
+            </padding>
+            
+            <Label text="🔐 Sécurisé par Blockchain" styleClass="footer-feature"/>
+            <Label text="🤖 Protection IA Anti-Fraude" styleClass="footer-feature"/>
+            <Label text="🎫 Billets Vérifiés" styleClass="footer-feature"/>
+            
+            <Region HBox.hgrow="ALWAYS"/>
+            
+            <Label text="© 2030 FIFA World Cup - Morocco, Spain, Portugal" styleClass="footer-copyright"/>
+        </HBox>
+    </bottom>
+    
+</BorderPane>

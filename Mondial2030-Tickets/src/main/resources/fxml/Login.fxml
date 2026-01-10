@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" 
+      fx:controller="com.mondial2030.controller.LoginController"
+      alignment="CENTER" spacing="20" styleClass="login-container">
+    
+    <padding>
+        <Insets top="50" right="40" bottom="50" left="40"/>
+    </padding>
+    
+    <!-- Logo/Header -->
+    <VBox alignment="CENTER" spacing="10">
+        <Label text="🏟️" style="-fx-font-size: 48px;"/>
+        <Label text="Mondial 2030" styleClass="app-title"/>
+        <Label text="Gestion Intelligente des Tickets" styleClass="app-subtitle"/>
+    </VBox>
+    
+    <!-- Login Form -->
+    <VBox fx:id="loginContainer" spacing="15" alignment="CENTER" maxWidth="300">
+        
+        <Label text="Connexion" styleClass="form-title"/>
+        
+        <VBox spacing="5">
+            <Label text="Nom d'utilisateur"/>
+            <TextField fx:id="usernameField" promptText="Entrez votre nom d'utilisateur" styleClass="form-field"/>
+        </VBox>
+        
+        <VBox spacing="5">
+            <Label text="Mot de passe"/>
+            <PasswordField fx:id="passwordField" promptText="Entrez votre mot de passe" styleClass="form-field"/>
+        </VBox>
+        
+        <Label fx:id="errorLabel" styleClass="error-label"/>
+        
+        <Button fx:id="loginButton" text="Se connecter" onAction="#handleLogin" 
+                styleClass="primary-button" maxWidth="Infinity"/>
+        
+        <Separator/>
+        
+        <Hyperlink text="Créer un nouveau compte" onAction="#handleRegister"/>
+        
+    </VBox>
+    
+    <!-- Footer -->
+    <VBox alignment="CENTER" spacing="5">
+        <Label text="Sécurisé par Blockchain &amp; IA" styleClass="footer-text"/>
+        <Label text="© 2030 FIFA World Cup - Morocco, Spain, Portugal" styleClass="footer-copyright"/>
+    </VBox>
+    
+</VBox>

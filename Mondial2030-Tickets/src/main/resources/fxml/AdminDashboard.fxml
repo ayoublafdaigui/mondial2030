@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.mondial2030.controller.AdminDashboardController"
+            styleClass="dashboard-container">
+    
+    <!-- TOP: Header Bar -->
+    <top>
+        <HBox styleClass="header-bar" alignment="CENTER_LEFT" spacing="20">
+            <padding>
+                <Insets top="15" right="20" bottom="15" left="20"/>
+            </padding>
+            
+            <Button text="🏠" onAction="#handleBackToHome" styleClass="nav-link" style="-fx-font-size: 18px;"/>
+            <Label text="🏟️" style="-fx-font-size: 24px;"/>
+            <Label text="Mondial 2030 - Tableau de Bord Administrateur" styleClass="header-title"/>
+            
+            <Region HBox.hgrow="ALWAYS"/>
+            
+            <Label fx:id="userInfoLabel" styleClass="user-info"/>
+            <Button text="🔄 Actualiser" onAction="#handleRefresh" styleClass="secondary-button"/>
+            <Button text="🚪 Déconnexion" onAction="#handleLogout" styleClass="danger-button"/>
+        </HBox>
+    </top>
+    
+    <!-- CENTER: Main Content -->
+    <center>
+        <VBox spacing="20">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+            
+            <!-- Spectator Flow Section -->
+            <VBox styleClass="section-card" spacing="10">
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                    <Label text="📊 Flux des Spectateurs &amp; Billets en temps réel" styleClass="section-title"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Label fx:id="statsLabel" styleClass="stats-label"/>
+                    <Button text="🔍 Analyser Fraude" onAction="#handleAnalyzeFraud" styleClass="warning-button"/>
+                </HBox>
+                
+                <TableView fx:id="ticketTable" VBox.vgrow="ALWAYS" minHeight="300" styleClass="data-table">
+                    <columns>
+                        <TableColumn fx:id="colId" text="ID" prefWidth="50"/>
+                        <TableColumn fx:id="colOwner" text="Propriétaire" prefWidth="150"/>
+                        <TableColumn fx:id="colMatch" text="Match" prefWidth="180"/>
+                        <TableColumn fx:id="colSeat" text="Place" prefWidth="100"/>
+                        <TableColumn fx:id="colFraudScore" text="Score Fraude IA" prefWidth="120"/>
+                        <TableColumn fx:id="colBlockchain" text="Hash Blockchain" prefWidth="180"/>
+                        <TableColumn fx:id="colStatus" text="Statut" prefWidth="80"/>
+                    </columns>
+                </TableView>
+            </VBox>
+        </VBox>
+    </center>
+    
+    <!-- RIGHT: Forms Panel -->
+    <right>
+        <VBox spacing="20" prefWidth="320" styleClass="side-panel">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+            
+            <!-- Generate Ticket Section -->
+            <VBox styleClass="form-card" spacing="10">
+                <Label text="🎫 Générer Billet" styleClass="form-card-title"/>
+                
+                <VBox spacing="5">
+                    <Label text="Match"/>
+                    <ComboBox fx:id="matchComboBox" maxWidth="Infinity" promptText="Sélectionner un match"/>
+                </VBox>
+                
+                <VBox spacing="5">
+                    <Label text="Spectateur"/>
+                    <ComboBox fx:id="userComboBox" maxWidth="Infinity" promptText="Sélectionner un utilisateur"/>
+                </VBox>
+                
+                <VBox spacing="5">
+                    <Label text="Place (ex: Zone A, Rang 12)"/>
+                    <TextField fx:id="seatField" promptText="Numéro de place"/>
+                </VBox>
+                
+                <HBox spacing="10">
+                    <VBox spacing="5" HBox.hgrow="ALWAYS">
+                        <Label text="Prix (€)"/>
+                        <TextField fx:id="priceField" promptText="100.00"/>
+                    </VBox>
+                    <VBox spacing="5" HBox.hgrow="ALWAYS">
+                        <Label text="Catégorie"/>
+                        <ComboBox fx:id="categoryComboBox" maxWidth="Infinity"/>
+                    </VBox>
+                </HBox>
+                
+                <Button fx:id="generateButton" text="✨ Générer Billet (Secured)" 
+                        onAction="#handleGenerateTicket" styleClass="primary-button" maxWidth="Infinity"/>
+            </VBox>
+            
+            <Separator/>
+            
+            <!-- Transfer Section -->
+            <VBox styleClass="form-card" spacing="10">
+                <Label text="🔄 Transfert de Billet" styleClass="form-card-title"/>
+                
+                <Label text="Sélectionnez un billet dans la table ci-dessus" styleClass="hint-label"/>
+                
+                <VBox spacing="5">
+                    <Label text="Nouveau propriétaire"/>
+                    <ComboBox fx:id="transferToComboBox" maxWidth="Infinity" promptText="Sélectionner destinataire"/>
+                </VBox>
+                
+                <VBox spacing="5">
+                    <Label text="Prix de transfert (optionnel)"/>
+                    <TextField fx:id="transferPriceField" promptText="Prix en €"/>
+                </VBox>
+                
+                <Button fx:id="transferButton" text="📤 Transférer Sélection" 
+                        onAction="#handleTransferTicket" styleClass="secondary-button" maxWidth="Infinity" disable="true"/>
+            </VBox>
+        </VBox>
+    </right>
+    
+    <!-- BOTTOM: Status Bar -->
+    <bottom>
+        <HBox styleClass="status-bar" alignment="CENTER_LEFT" spacing="30">
+            <padding>
+                <Insets top="10" right="20" bottom="10" left="20"/>
+            </padding>
+            
+            <Label fx:id="aiStatusLabel" text="Système IA: Actif" styleClass="status-active"/>
+            <Separator orientation="VERTICAL"/>
+            <Label fx:id="blockchainStatusLabel" text="Blockchain Node: Connecté" styleClass="status-blockchain"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label text="Mondial 2030 - v1.0" styleClass="version-label"/>
+        </HBox>
+    </bottom>
+    
+</BorderPane>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.mondial2030.controller.UserViewController"
+            styleClass="user-view-container">
+    
+    <!-- TOP: Header Bar -->
+    <top>
+        <HBox styleClass="header-bar" alignment="CENTER_LEFT" spacing="20">
+            <padding>
+                <Insets top="15" right="20" bottom="15" left="20"/>
+            </padding>
+            
+            <Button text="🏠" onAction="#handleBackToHome" styleClass="nav-link" style="-fx-font-size: 18px;"/>
+            <Label text="🏟️" style="-fx-font-size: 24px;"/>
+            <Label text="Mondial 2030 - Mes Billets" styleClass="header-title"/>
+            
+            <Region HBox.hgrow="ALWAYS"/>
+            
+            <Label fx:id="welcomeLabel" styleClass="welcome-label"/>
+            <Button text="🔄 Actualiser" onAction="#handleRefresh" styleClass="secondary-button"/>
+            <Button text="🚪 Déconnexion" onAction="#handleLogout" styleClass="danger-button"/>
+        </HBox>
+    </top>
+    
+    <!-- CENTER: Main Content -->
+    <center>
+        <VBox spacing="20">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+            
+            <!-- Info Card -->
+            <HBox styleClass="info-card" spacing="20" alignment="CENTER_LEFT">
+                <padding>
+                    <Insets top="15" right="20" bottom="15" left="20"/>
+                </padding>
+                <Label text="🎫" style="-fx-font-size: 32px;"/>
+                <VBox spacing="5">
+                    <Label fx:id="ticketCountLabel" text="Vos billets" styleClass="info-title"/>
+                    <Label text="Consultez et gérez vos billets pour le Mondial 2030" styleClass="info-subtitle"/>
+                </VBox>
+            </HBox>
+            
+            <!-- Tickets Table -->
+            <VBox styleClass="section-card" spacing="10" VBox.vgrow="ALWAYS">
+                <Label text="📋 Mes Billets" styleClass="section-title"/>
+                
+                <TableView fx:id="myTicketsTable" VBox.vgrow="ALWAYS" minHeight="300" styleClass="data-table">
+                    <columns>
+                        <TableColumn fx:id="colId" text="ID" prefWidth="60"/>
+                        <TableColumn fx:id="colMatch" text="Match" prefWidth="250"/>
+                        <TableColumn fx:id="colSeat" text="Place" prefWidth="120"/>
+                        <TableColumn fx:id="colDate" text="Date d'achat" prefWidth="120"/>
+                        <TableColumn fx:id="colStatus" text="Statut" prefWidth="100"/>
+                        <TableColumn fx:id="colBlockchain" text="Hash Blockchain" prefWidth="200"/>
+                    </columns>
+                </TableView>
+                
+                <HBox spacing="10" alignment="CENTER_RIGHT">
+                    <Button text="ℹ️ Voir détails" onAction="#handleViewDetails" styleClass="secondary-button"/>
+                </HBox>
+            </VBox>
+            
+            <!-- Transfer Section -->
+            <VBox styleClass="section-card" spacing="15">
+                <Label text="🔄 Transférer un Billet" styleClass="section-title"/>
+                
+                <HBox spacing="20" alignment="CENTER_LEFT">
+                    <VBox spacing="5" HBox.hgrow="ALWAYS">
+                        <Label text="Destinataire"/>
+                        <ComboBox fx:id="transferToComboBox" maxWidth="Infinity" promptText="Sélectionner un destinataire"/>
+                    </VBox>
+                    
+                    <Button fx:id="transferButton" text="📤 Transférer le billet sélectionné" 
+                            onAction="#handleTransfer" styleClass="primary-button" disable="true"/>
+                </HBox>
+                
+                <Label text="⚠️ Attention: Le transfert est définitif et sera enregistré sur la blockchain." 
+                       styleClass="warning-label"/>
+            </VBox>
+        </VBox>
+    </center>
+    
+    <!-- BOTTOM: Footer -->
+    <bottom>
+        <HBox styleClass="status-bar" alignment="CENTER" spacing="20">
+            <padding>
+                <Insets top="10" right="20" bottom="10" left="20"/>
+            </padding>
+            
+            <Label text="🔒 Vos billets sont sécurisés par la technologie Blockchain" styleClass="footer-secure"/>
+            <Separator orientation="VERTICAL"/>
+            <Label text="Mondial 2030 - Morocco, Spain, Portugal" styleClass="footer-info"/>
+        </HBox>
+    </bottom>
+    
+</BorderPane>

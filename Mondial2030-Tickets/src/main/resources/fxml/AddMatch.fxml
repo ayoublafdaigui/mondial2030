@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.mondial2030.controller.AddMatchController"
+      spacing="15" alignment="CENTER"
+      prefWidth="450" prefHeight="400"
+      styleClass="add-match-form">
+    
+    <padding>
+        <Insets top="20" right="30" bottom="20" left="30"/>
+    </padding>
+    
+    <Label text="Add New Match" styleClass="form-title"/>
+    
+    <GridPane hgap="10" vgap="15" alignment="CENTER">
+        <Label text="Home Team:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <ComboBox fx:id="homeTeamComboBox" prefWidth="200" 
+                  GridPane.rowIndex="0" GridPane.columnIndex="1"
+                  promptText="Select Home Team"/>
+        
+        <Label text="Away Team:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <ComboBox fx:id="awayTeamComboBox" prefWidth="200" 
+                  GridPane.rowIndex="1" GridPane.columnIndex="1"
+                  promptText="Select Away Team"/>
+        
+        <Label text="Match Date:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+        <DatePicker fx:id="matchDatePicker" prefWidth="200" 
+                    GridPane.rowIndex="2" GridPane.columnIndex="1"
+                    promptText="Select Date"/>
+        
+        <Label text="Match Time:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+        <HBox spacing="5" GridPane.rowIndex="3" GridPane.columnIndex="1">
+            <Spinner fx:id="hourSpinner" prefWidth="70" editable="true"/>
+            <Label text=":"/>
+            <Spinner fx:id="minuteSpinner" prefWidth="70" editable="true"/>
+        </HBox>
+        
+        <Label text="Stadium:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+        <ComboBox fx:id="stadiumComboBox" prefWidth="200" 
+                  GridPane.rowIndex="4" GridPane.columnIndex="1"
+                  promptText="Select Stadium"/>
+        
+        <Label text="Ticket Price:" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+        <TextField fx:id="ticketPriceField" prefWidth="200" 
+                   GridPane.rowIndex="5" GridPane.columnIndex="1"
+                   promptText="Enter price"/>
+    </GridPane>
+    
+    <Label fx:id="errorLabel" styleClass="error-label" visible="false"/>
+    <Label fx:id="successLabel" styleClass="success-label" visible="false"/>
+    
+    <HBox spacing="15" alignment="CENTER">
+        <Button text="Save Match" onAction="#handleSaveMatch" styleClass="save-button"/>
+        <Button text="Clear" onAction="#handleClear" styleClass="clear-button"/>
+    </HBox>
+</VBox>
