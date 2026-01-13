@@ -1,7 +1,7 @@
 <br>
-<img src="Moi.jpg" style="height:200px;margin-right:600px"/> ## réalisé par Lafdaigui Ayoub
+<img src="Moi.jpg" style="height:200px;margin-right:600px"/> 
 
-## Mondial 2030 - Ticket Management System
+## Mondial 2030 - Ticket Management System réalisé par Lafdaigui Ayoub
 
 ## 🏟️ Overview
 
